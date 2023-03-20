@@ -1,0 +1,51 @@
+---
+- name: Deploy Invidious
+  hosts: all
+  become: true
+
+  vars:
+
+    # Define package lists based on distribution
+    debian_packages:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
+    arch_packages:
+      -
+    redhat_packages:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
+
+  tasks:
+
+    # Install packages for Debian
+    - name: Install required packages - Debian
+      ansible.builtin.package:
+        name: "{{ debian_packages }}"
+        state: present
+      when: ansible_os_family == 'Debian'
+
+    # Install packages for Arch
+    - name: Install required packages - Arch
+      ansible.builtin.package:
+        name: "{{ arch_packages }}"
+        state: present
+      when: ansible_os_family == 'Archlinux'
+
+    # Install packages for RedHat
+    - name: Install required packages - RedHat
+      ansible.builtin.package:
+        name: "{{ redhat_packages }}"
+        state: present
+      when: ansible_os_family == 'RedHat'
+
+    - name: Start Docker Service
+      ansible.builtin.service:
+        name: docker
+        state: started
+        enabled: true

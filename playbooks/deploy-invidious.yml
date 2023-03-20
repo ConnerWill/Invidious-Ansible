@@ -128,7 +128,6 @@
         state: started
         enabled: true
 
-
     # - name: Setup Invidious
     # - name: Create invidious config from template
     #   ansible.builtin.template:
@@ -137,6 +136,20 @@
     #     owner: invidious
     #     group: invidious
     #     mode: '0644'
-    #
+
+    - name: Create/Copy Invidious Service
+      ansible.builtin.copy:
+        src: "{{ invidious_dir }}/invidious.service"
+        dest: /etc/systemd/system/invidious.service
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Start Invidious Service
+      ansible.builtin.service:
+        name: invidious
+        state: started
+        enabled: true
+
     # - name: Setup NGINX
     # - name: Setup Logrotate
