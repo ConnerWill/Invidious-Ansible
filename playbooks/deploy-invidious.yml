@@ -5,10 +5,6 @@
 
   vars:
 
-    # invidious_repo: "{{ invidious_repo_url }}"
-    # invidious_version: "{{ invidious_version }}"
-    # invidious_dir: "{{ invidious_dir }}"
-
     # Define package lists based on distribution
     debian_packages:
       - certbot
@@ -54,6 +50,12 @@
       - zlib-devel
 
   tasks:
+
+    - name: Check If All Variables Are Defined
+      ansible.builtin.fail:
+        msg: 'Please confirm you have defined the following variables: invidious_repo, invidious_version, invidious_dir'
+      when: invidious_repo is not defined or invidious_version is not defined or invidious_dir is not defined
+
 
     # Install packages for Debian
     - name: Install required packages - Debian
