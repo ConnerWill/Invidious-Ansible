@@ -1,0 +1,51 @@
+---
+- name: Update Invidious
+  hosts: all
+  become: true
+
+  tasks:
+
+    - name: Update apt Cache
+      ansible.builtin.apt:
+        update_cache: true
+      when: ansible_pkg_mgr == "apt"
+
+    - name: Update yum Cache
+      ansible.builtin.yum:
+        update_cache: true
+      when: ansible_pkg_mgr == "yum"
+
+    - name: Update dnf Cache
+      ansible.builtin.dnf:
+        update_cache: true
+      when: ansible_pkg_mgr == "dnf"
+
+    - name: Update pacman Cache
+      community.general.pacman:
+        update_cache: true
+      when: ansible_pkg_mgr == "pacman"
+
+    - name: Clone Invidious repository
+      ansible.builtin.git:
+        repo: "{{ invidious_repo }}"
+        dest: "{{ invidious_dir }}"
+        version: "{{ invidious_version }}"
+      register: git_clone
+
+    - name: Update Shards
+      ansible.builtin.command:
+        cmd: shards install --production
+        become: true
+        become_user: invidious
+        chdir: "{{ invidious_dir }}"
+      register: shards_output
+      changed_when: shards_output.rc != 0  # <- Uses the return code to define when the task has changed
+
+    - name: Crystal Build
+      ansible.builtin.command:
+        cmd: crystal build src/invidious.cr --release
+        become: true
+        become_user: invidious
+        chdir: "{{ invidious_dir }}"
+      register: crystal_output
+      changed_when: crystal_output.rc != 0  # <- Uses the return code to define when the task has changed
