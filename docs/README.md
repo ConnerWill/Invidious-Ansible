@@ -51,9 +51,18 @@ Deploy Invidious with Docker Compose
 ansible-playbook -i ./inventory.yml ./playbooks/docker-compose-invidious.yml
 ```
 
+# Playbooks
 
+Playbooks are located under the `playbooks` directory
 
+`deploy-invidious.yml`
+: Deploy Invidious to a new server
 
+`update-invidious.yml`
+: Update an existing installation of Invidious
+
+`docker-compose-deploy-invidious.yml`
+: Deploy Invidious using Docker Compose
 
 
 
