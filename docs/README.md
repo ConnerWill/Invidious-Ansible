@@ -1,5 +1,7 @@
 # Invidious Ansible
 
+[![deploy](https://github.com/ConnerWill/Invidious-Ansible/actions/workflows/deploy-invidious.yml/badge.svg)](https://github.com/ConnerWill/Invidious-Ansible/actions/workflows/deploy-invidious.yml)
+
 Ansible playbooks to deploy [Invidious][invidious]
 
 ***Currently a work in progress***
