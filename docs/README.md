@@ -25,6 +25,18 @@ Copy SSH key to server
 ssh-copy-id -i ~/.ssh/invidious-ssh-key user@server
 ```
 
+Copy inventory example to inventory file
+
+```bash
+cp ./EXAMPLE-inventory.yml ./inventory.yml
+```
+
+Edit inventory file *(`inventory.yml`)*
+
+```bash
+vim ./inventory.yml
+```
+
 # Usage
 
 Deploy Invidious
