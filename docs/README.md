@@ -47,11 +47,13 @@ Deploy Invidious
 ansible-playbook -i ./inventory.yml ./playbooks/deploy-invidious.yml
 ```
 
+<!---
 Deploy Invidious with Docker Compose
 
 ```bash
 ansible-playbook -i ./inventory.yml ./playbooks/docker-compose-invidious.yml
 ```
+--->
 
 # Playbooks
 
