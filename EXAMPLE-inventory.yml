@@ -6,5 +6,7 @@ all:
       ansible_ssh_private_key_file: ~/.ssh/invidious-ssh-key
 
   vars:
-    http_port: 80
-    https_port: 443
+
+    invidious_repo_url: https://github.com/iv-org/invidious.git # Invidious repo URL
+    invidious_version: 1.3.0 # Invidious version to install
+    invidious_dir: /home/invidious/invidious # Directory where Invidious will be installed
