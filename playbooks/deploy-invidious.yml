@@ -1,0 +1,48 @@
+---
+- name: Deploy Invidious
+  hosts: all
+  become: yes
+
+  vars:
+
+    # Invidious repo URL
+    invidious_repo: https://github.com/iv-org/invidious.git
+
+    # Invidious version to install
+    invidious_version: 1.3.0
+
+    # Directory where Invidious will be installed
+    invidious_dir: /opt/invidious
+
+    # Define package lists based on distribution
+    debian_packages:
+      - git
+      - curl
+      - build-essential
+      - libssl-dev
+      - libffi-dev
+      - python3-dev
+    redhat_packages:
+      - git
+      - curl
+      - gcc
+      - make
+      - openssl-devel
+      - libffi-devel
+      - python3-devel
+
+  tasks:
+
+    # Install required packages based on distribution
+    - name: Install required packages
+      package:
+        name: "{{ debian_packages if ansible_distribution == 'Debian' else redhat_packages }}"
+        state: present
+
+    # Clone Invidious repository
+    - name: Clone Invidious repository
+      git:
+        repo: "{{ invidious_repo }}"
+        dest: "{{ invidious_dir }}"
+        version: "{{ invidious_version }}"
+      register: git_clone
