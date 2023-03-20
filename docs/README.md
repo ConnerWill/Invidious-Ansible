@@ -11,6 +11,21 @@ Ansible playbooks to deploy [Invidious][invidious]
 * Ubuntu
 * CentOS
 
+
+# Setup
+
+Create SSH key
+
+```bash
+ssh-keygen -t ed25519 -a 256 -C "Invidious" -f "~/.ssh/invidious-ssh-key"
+```
+
+Copy SSH key to server
+
+```bash
+ssh-copy-id -i ~/.ssh/invidious-ssh-key user@server
+```
+
 # Usage
 
 Deploy Invidious
