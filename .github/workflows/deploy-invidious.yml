@@ -13,4 +13,10 @@ jobs:
           submodules: recursive
 
       - name: Create inventory
-        run: cp EXAMPLE-inventory.yml inventory.yml && sed -i -e 's/username/root/g'
+        run: cp EXAMPLE-inventory.yml inventory.yml && sed -i -e 's/username/root/g' -e 's/hostname/localhost' inventory.yml
+        
+      - name: Install Ansible
+        run: apt install ansible -y
+      
+      - name: Run Playbook
+        run: ansible-playbook -i ./inventory.yml ./playbooks/deploy-invidious.yml
