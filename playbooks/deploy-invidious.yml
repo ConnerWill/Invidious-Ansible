@@ -76,20 +76,35 @@
       when: ansible_os_family == 'RedHat'
 
 
-      # Install crystal for Debian
-    - name: Install Crystal - Debian
+    # Download crystal installer
+    - name: Download Crystal Installer
+      ansible.builtin.get_url:
+        url: https://crystal-lang.org/install.sh
+        dest: /tmp/crystal-install.sh
+        mode: '0700'
+      when: (ansible_os_family == 'Debian') or (ansible_os_family == 'RedHat')
 
-      when: ansible_os_family == 'Debian'
+    # Install crystal
+    - name: Install Crystal
+      ansible.builtin.command:
+        cmd: bash /tmp/crystal-install.sh
+      when: (ansible_os_family == 'Debian') or (ansible_os_family == 'RedHat')
 
-      # Install crystal for RedHat
-    - name: Install Crystal - RedHat
-      when: ansible_os_family == 'RedHat'
 
 
-
+    # Create invidious group
+    - name: Create Invidious Group
+      ansible.builtin.group:
+        name: invidious
+        state: present
 
     # Create invidious user
-    - name: Create invidious user
+    - name: Create Invidious User
+      ansible.builtin.user:
+        name: invidious
+        comment: Invidious
+        group: invidious
+        state: present
 
 
     # Clone Invidious repository
@@ -104,4 +119,20 @@
     - name: Setup PostgresSQL
 
 
+    - name: Enable PostgresSQL Service
+      systemd:
+        name: httpd
+        enabled: yes
+        masked: no
+
+
+    - name: Start PostgresSQL Service
+      systemd:
+        state: started
+        name: postgresql
+
+
     - name: Setup Invidious
+
+
+    - name: Setup NGINX
