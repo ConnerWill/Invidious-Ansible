@@ -22,4 +22,4 @@ jobs:
         run: sed -i -e 's/#connection/connection/g' ./playbooks/deploy-invidious.yml
 
       - name: Run Playbook
-        run: ansible-playbook ./playbooks/deploy-invidious.yml
+        run: ansible-playbook -v ./playbooks/deploy-invidious.yml
