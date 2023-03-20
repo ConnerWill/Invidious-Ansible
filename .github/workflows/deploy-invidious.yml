@@ -12,14 +12,14 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Create inventory
-        run: cp EXAMPLE-inventory.yml inventory.yml
-
-      - name: Replace variables in inventory
-        run: sed -i -e 's/username/root/g' -e 's/hostname/localhost/g' inventory.yml
-
       - name: Install Ansible
         run: sudo apt install ansible -y
 
+      - name: Replace all with localhost in playbook
+        run: sed -i -e 's/all/localhost/g'
+
+      - name: Uncomment local connection in playbook
+        run: sed -i -e 's/#connection/connection/g'
+
       - name: Run Playbook
-        run: ansible-playbook -i ./inventory.yml ./playbooks/deploy-invidious.yml
+        run: ansible-playbook ./playbooks/deploy-invidious.yml
