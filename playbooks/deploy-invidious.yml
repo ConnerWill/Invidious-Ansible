@@ -120,18 +120,13 @@
         version: "{{ invidious_version }}"
       register: git_clone
 
-    # - name: Setup PostgresSQL
-    #   notify: Start Postgres
-
-
-    # - name: Setup Invidious
-    # - name: Create invidious config from template
-    #   ansible.builtin.template:
-    #     src: templates/config.j2
-    #     dest: "{{ invidious_dir }}/config/config.yml"
-    #     owner: invidious
-    #     group: invidious
-    #     mode: '0644'
+    - name: Create invidious config from template
+      ansible.builtin.template:
+        src: templates/config.j2
+        dest: "{{ invidious_dir }}/config/config.yml"
+        owner: invidious
+        group: invidious
+        mode: '0644'
 
     - name: Create/Copy Invidious Service
       ansible.builtin.copy:
@@ -142,6 +137,8 @@
         mode: '0644'
       notify: Start Invidious
 
+    # - name: Setup PostgresSQL
+    #   notify: Start Postgres
 
     - name: Setup Nginx
       ansible.builtin.template:
