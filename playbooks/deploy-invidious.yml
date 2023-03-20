@@ -121,12 +121,8 @@
       register: git_clone
 
     # - name: Setup PostgresSQL
+    #   notify: Start Postgres
 
-    - name: Start PostgresSQL Service
-      ansible.builtin.service:
-        name: postgresql
-        state: started
-        enabled: true
 
     # - name: Setup Invidious
     # - name: Create invidious config from template
@@ -144,12 +140,59 @@
         owner: root
         group: root
         mode: '0644'
+      notify: Start Invidious
 
-    - name: Start Invidious Service
+
+    # - name: Setup NGINX
+    #   notify: Start Nginx
+
+    # - name: Setup Logrotate
+    #   notify: Start Logrotate
+
+
+
+  handlers:
+
+    - name: Start Invidious
       ansible.builtin.service:
         name: invidious
         state: started
         enabled: true
 
-    # - name: Setup NGINX
-    # - name: Setup Logrotate
+    - name: Start Postgres
+      ansible.builtin.service:
+        name: postgresql
+        state: started
+        enabled: true
+
+    - name: Start Nginx
+      ansible.builtin.service:
+        name: nginx
+        state: started
+        enabled: true
+
+    - name: Start Logrotate
+      ansible.builtin.service:
+        name: logrotate
+        state: started
+        enabled: true
+
+    - name: Restart Invidious
+      ansible.bultin.service:
+        name: invidious
+        state: restarted
+
+    - name: Restart Postgres
+      ansible.bultin.service:
+        name: postgresql
+        state: restarted
+
+    - name: Restart Nginx
+      ansible.bultin.service:
+        name: nginx
+        state: restarted
+
+    - name: Restart Logrotate
+      ansible.bultin.service:
+        name: logrotate
+        state: restarted
