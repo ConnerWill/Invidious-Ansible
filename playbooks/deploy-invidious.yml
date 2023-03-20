@@ -12,7 +12,7 @@
     invidious_version: 1.3.0
 
     # Directory where Invidious will be installed
-    invidious_dir: /opt/invidious
+    invidious_dir: /home/invidious/invidious
 
     # Define package lists based on distribution
     debian_packages:
@@ -56,21 +56,21 @@
 
     # Install packages for Debian
     - name: Install required packages - Debian
-      package:
+      ansible.builtin.package:
         name: "{{ debian_packages }}"
         state: present
       when: ansible_os_family == 'Debian'
 
     # Install packages for Arch
     - name: Install required packages - Arch
-      package:
+      ansible.builtin.package:
         name: "{{ arch_packages }}"
         state: present
       when: ansible_os_family == 'Archlinux'
 
     # Install packages for RedHat
     - name: Install required packages - RedHat
-      package:
+      ansible.builtin.package:
         name: "{{ redhat_packages }}"
         state: present
       when: ansible_os_family == 'RedHat'
@@ -88,8 +88,9 @@
     - name: Install Crystal
       ansible.builtin.command:
         cmd: bash /tmp/crystal-install.sh
+      register: crystal_install_output
+      changed_when: crystal_install_output.rc != 0  # <- Uses the return code to define when the task has changed
       when: (ansible_os_family == 'Debian') or (ansible_os_family == 'RedHat')
-
 
 
     # Create invidious group
@@ -104,35 +105,27 @@
         name: invidious
         comment: Invidious
         group: invidious
+        create_home: true
         state: present
 
 
     # Clone Invidious repository
     - name: Clone Invidious repository
-      git:
+      ansible.builtin.git:
         repo: "{{ invidious_repo }}"
         dest: "{{ invidious_dir }}"
         version: "{{ invidious_version }}"
       register: git_clone
 
-
-    - name: Setup PostgresSQL
-
-
-    - name: Enable PostgresSQL Service
-      systemd:
-        name: httpd
-        enabled: yes
-        masked: no
-
+    # - name: Setup PostgresSQL
 
     - name: Start PostgresSQL Service
-      systemd:
-        state: started
+      ansible.builtin.service:
         name: postgresql
+        state: started
+        enabled: true
 
 
-    - name: Setup Invidious
-
-
-    - name: Setup NGINX
+    # - name: Setup Invidious
+    #
+    # - name: Setup NGINX
