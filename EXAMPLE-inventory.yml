@@ -15,4 +15,4 @@ all:
     domain_name: invidious.example.com
     https: true
     invidious_admin_user: username
-    invidious_banner:
+    invidious_banner: BANNER TEXT
