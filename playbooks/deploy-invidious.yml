@@ -1,7 +1,7 @@
 ---
 - name: Deploy Invidious
   hosts: all
-  become: yes
+  become: true
 
   vars:
 
@@ -16,64 +16,80 @@
 
     # Define package lists based on distribution
     debian_packages:
-      - git
       - curl
-      - build-essential
-      - libssl-dev
-      - libffi-dev
-      - python3-dev
-    ubuntu_packages:
       - git
-      - curl
-      - build-essential
       - libssl-dev
-      - libffi-dev
-      - python3-dev
+      - libxml2-dev
+      - libyaml-dev
+      - libgmp-dev
+      - libreadline-dev
+      - librsvg2-bin
+      - libsqlite3-dev
+      - zlib1g-dev
+      - libpcre3-dev
+      - libevent-dev
+      - postgresql
     arch_packages:
-      - git
+      - crystal
       - curl
-      - build-essential
-      - libssl-dev
-      - libffi-dev
-      - python3-dev
-    centos_packages:
       - git
+      - base-devel
+      - librsvg
+      - postgresql
+      - shards
+    redhat_packages:
       - curl
       - gcc
-      - make
+      - git
+      - gmp-devel
+      - libevent-devel
+      - librsvg2-devel
+      - libxml2-devel
+      - libyaml-devel
       - openssl-devel
-      - libffi-devel
-      - python3-devel
+      - postgresql
+      - readline-devel
+      - sqlite-devel
+      - zlib-devel
 
   tasks:
 
     # Install packages for Debian
     - name: Install required packages - Debian
       package:
-        name: "{{ Debian_packages }}"
+        name: "{{ debian_packages }}"
         state: present
-      when: ansible_distribution == 'Debian'
-
-    # Install packages for Ubuntu
-    - name: Install required packages - Ubuntu
-      package:
-        name: "{{ ubuntu_packages }}"
-        state: present
-      when: ansible_distribution == 'Ubuntu'
+      when: ansible_os_family == 'Debian'
 
     # Install packages for Arch
     - name: Install required packages - Arch
       package:
         name: "{{ arch_packages }}"
         state: present
-      when: ansible_distribution == 'Arch'
+      when: ansible_os_family == 'Archlinux'
 
-    # Install packages for CentOS
-    - name: Install required packages - CentOS
+    # Install packages for RedHat
+    - name: Install required packages - RedHat
       package:
-        name: "{{ centos_packages }}"
+        name: "{{ redhat_packages }}"
         state: present
-      when: ansible_distribution == 'CentOS'
+      when: ansible_os_family == 'RedHat'
+
+
+      # Install crystal for Debian
+    - name: Install Crystal - Debian
+
+      when: ansible_os_family == 'Debian'
+
+      # Install crystal for RedHat
+    - name: Install Crystal - RedHat
+      when: ansible_os_family == 'RedHat'
+
+
+
+
+    # Create invidious user
+    - name: Create invidious user
 
 
     # Clone Invidious repository
@@ -83,3 +99,9 @@
         dest: "{{ invidious_dir }}"
         version: "{{ invidious_version }}"
       register: git_clone
+
+
+    - name: Setup PostgresSQL
+
+
+    - name: Setup Invidious
