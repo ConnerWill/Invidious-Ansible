@@ -4,12 +4,11 @@ Ansible playbooks to deploy [Invidious][invidious]
 
 ***Currently a work in progress***
 
-# Supported OS
+# Supported OS Families
 
-* Arch
-* Debian
-* Ubuntu
-* CentOS
+* Arch *(Arch, Manjaro)*
+* Debian *(Debian, Ubuntu)*
+* RedHat *(RHEL, CentOS, Rocky)*
 
 
 # Setup
