@@ -1,9 +1,9 @@
 all:
   hosts:
-    webserver1:
+    server1:
       ansible_host: hostname
       ansible_user: username
-      ansible_ssh_private_key_file: ~/.ssh/ssh-key
+      ansible_ssh_private_key_file: ~/.ssh/invidious-ssh-key
 
   vars:
     http_port: 80
