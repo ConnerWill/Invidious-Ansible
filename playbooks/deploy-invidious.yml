@@ -128,7 +128,6 @@
 
 
     # - name: Setup Invidious
-
     # - name: Create invidious config from template
     #   ansible.builtin.template:
     #     src: templates/config.j2
@@ -138,3 +137,4 @@
     #     mode: '0644'
     #
     # - name: Setup NGINX
+    # - name: Setup Logrotate
