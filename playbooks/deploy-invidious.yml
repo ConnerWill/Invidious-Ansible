@@ -122,27 +122,28 @@
 
     - name: Create invidious config from template
       ansible.builtin.template:
-        src: templates/config.j2
+        src: ../templates/config.j2
         dest: "{{ invidious_dir }}/config/config.yml"
         owner: invidious
         group: invidious
         mode: '0644'
 
-    - name: Create/Copy Invidious Service
-      ansible.builtin.copy:
-        remote_src: "{{ invidious_dir }}/invidious.service"
-        dest: /etc/systemd/system/invidious.service
-        owner: root
-        group: root
-        mode: '0644'
-      notify: Start Invidious
+    # - name: Create/Copy Invidious Service
+    #   ansible.builtin.copy:
+    #     src: "{{ invidious_dir }}/invidious.service"
+    #     dest: /etc/systemd/system/invidious.service
+    #     remote_src: true
+    #     owner: root
+    #     group: root
+    #     mode: '0644'
+    #   notify: Start Invidious
 
     # - name: Setup PostgresSQL
     #   notify: Start Postgres
 
     - name: Setup Nginx
       ansible.builtin.template:
-        src: templates/nginx-reverse-proxy.j2
+        src: ../templates/nginx-reverse-proxy.j2
         dest: "/etc/nginx/sites-available"
         owner: root
         group: root
