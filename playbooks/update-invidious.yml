@@ -49,3 +49,8 @@
         chdir: "{{ invidious_dir }}"
       register: crystal_output
       changed_when: crystal_output.rc != 0  # <- Uses the return code to define when the task has changed
+
+    - name: Restart service invidious
+      ansible.builtin.service:
+        name: invidious
+        state: restarted
