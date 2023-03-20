@@ -128,7 +128,7 @@
       ansible.builtin.git:
         repo: "{{ invidious_repo }}"
         dest: "{{ invidious_dir }}"
-        version: "{{ invidious_version }}"
+        # version: "{{ invidious_version }}"
       register: git_clone
 
     - name: Create invidious config from template
