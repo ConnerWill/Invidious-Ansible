@@ -135,7 +135,7 @@
 
     - name: Create/Copy Invidious Service
       ansible.builtin.copy:
-        src: "{{ invidious_dir }}/invidious.service"
+        remote_src: "{{ invidious_dir }}/invidious.service"
         dest: /etc/systemd/system/invidious.service
         owner: root
         group: root
@@ -143,12 +143,17 @@
       notify: Start Invidious
 
 
-    # - name: Setup NGINX
-    #   notify: Start Nginx
+    - name: Setup Nginx
+      ansible.builtin.template:
+        src: templates/nginx-reverse-proxy.j2
+        dest: "/etc/nginx/sites-available"
+        owner: root
+        group: root
+        mode: '0644'
+      notify: Start Nginx
 
     # - name: Setup Logrotate
     #   notify: Start Logrotate
-
 
 
   handlers:
@@ -178,21 +183,21 @@
         enabled: true
 
     - name: Restart Invidious
-      ansible.bultin.service:
+      ansible.builtin.service:
         name: invidious
         state: restarted
 
     - name: Restart Postgres
-      ansible.bultin.service:
+      ansible.builtin.service:
         name: postgresql
         state: restarted
 
     - name: Restart Nginx
-      ansible.bultin.service:
+      ansible.builtin.service:
         name: nginx
         state: restarted
 
     - name: Restart Logrotate
-      ansible.bultin.service:
+      ansible.builtin.service:
         name: logrotate
         state: restarted
