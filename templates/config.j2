@@ -9,8 +9,8 @@
 ## This setting is MANDATORY, unless 'database_url' is used.
 ##
 db:
-  user: '{{ pg_user }}'
-  password: '{{ pg_pass }}'
+  user: kemal
+  password: kemal
   host: localhost
   port: 5432
   dbname: invidious
@@ -38,7 +38,7 @@ db:
 ## Accepted values: true, false
 ## Default: false
 ##
-#check_tables: false
+check_tables: false
 
 
 
@@ -62,7 +62,7 @@ db:
 ## Accepted values: 1-65535
 ## Default: 3000
 ##
-#port: 3000
+port: 3000
 
 ##
 ## When the invidious instance is behind a proxy, and the proxy
@@ -76,7 +76,7 @@ db:
 ## Accepted values: 1-65535
 ## Default: <none>
 ##
-external_port: 80
+external_port: 443
 
 ##
 ## Interface address to listen on for incoming connections.
@@ -84,7 +84,7 @@ external_port: 80
 ## Accepted values: a valid IPv4 or IPv6 address.
 ## default: 0.0.0.0  (listen on all interfaces)
 ##
-#host_binding: 0.0.0.0
+host_binding: 0.0.0.0
 
 ##
 ## Domain name under which this instance is hosted. This is
@@ -95,7 +95,7 @@ external_port: 80
 ## Accepted values: a fully qualified domain name (FQDN)
 ## Default: <none>
 ##
-domain:
+domain: {{ domain_name }}
 
 ##
 ## Tell Invidious that it is behind a proxy that provides only
@@ -106,7 +106,7 @@ domain:
 ## Accepted values: true, false
 ## Default: false
 ##
-https_only: false
+https_only: true
 
 ##
 ## Enable/Disable 'Strict-Transport-Security'. Make sure that
@@ -115,7 +115,7 @@ https_only: false
 ## Accepted values: true, false
 ## Default: true
 ##
-#hsts: true
+hsts: true
 
 
 # -----------------------------
@@ -129,7 +129,7 @@ https_only: false
 ## Accepted values: true, false, dash, livestreams, downloads, local
 ## Default: false
 ##
-#disable_proxy: false
+disable_proxy: false
 
 ##
 ## Size of the HTTP pool used to connect to youtube. Each
@@ -157,17 +157,13 @@ https_only: false
 ## Note 2: Using QUIC prevents some captcha challenges from appearing.
 ## See: https://github.com/iv-org/invidious/issues/957#issuecomment-576424042
 ##
-## Note 3: As of 2021-11-12, Google seems to have disabled QUIC on
-## their servers. The default has been changed to 'false'.Read more
-## at: https://github.com/iv-org/invidious/issues/2577
-##
 ## Accepted values: true, false
 ## Default: false
 ##
 #use_quic: false
 
 ##
-## Additionnal cookies to be sent when requesting the youtube API.
+## Additional cookies to be sent when requesting the youtube API.
 ##
 ## Accepted values: a string in the format "name1=value1; name2=value2..."
 ## Default: <none>
@@ -192,22 +188,22 @@ https_only: false
 
 ##
 ## Path to log file. Can be absolute or relative to the invidious
-## binary. This is overriden if "-o OUTPUT" or "--output=OUTPUT"
+## binary. This is overridden if "-o OUTPUT" or "--output=OUTPUT"
 ## are passed on the command line.
 ##
 ## Accepted values: a filesystem path or 'STDOUT'
 ## Default: STDOUT
 ##
-#output: STDOUT
+output: STDOUT
 
 ##
-## Logging Verbosity. This is overriden if "-l LEVEL" or
+## Logging Verbosity. This is overridden if "-l LEVEL" or
 ## "--log-level=LEVEL" are passed on the command line.
 ##
 ## Accepted values: All, Trace, Debug, Info, Warn, Error, Fatal, Off
 ## Default: Info
 ##
-#log_level: Info
+log_level: Info
 
 
 # -----------------------------
@@ -220,7 +216,7 @@ https_only: false
 ## Accepted values: true, false
 ## Default: true
 ##
-#popular_enabled: true
+popular_enabled: true
 
 ##
 ## Enable/Disable statstics (available at /api/v1/stats).
@@ -241,7 +237,7 @@ https_only: false
 ## Accepted values: true, false
 ## Default: false
 ##
-#statistics_enabled: false
+statistics_enabled: true
 
 
 # -----------------------------
@@ -256,7 +252,7 @@ https_only: false
 ## Accepted values: true, false
 ## Default: true
 ##
-#registration_enabled: true
+registration_enabled: true
 
 ##
 ## Allow/Forbid users to log-in. This setting affects the ability
@@ -265,7 +261,7 @@ https_only: false
 ## Accepted values: true, false
 ## Default: true
 ##
-#login_enabled: true
+login_enabled: true
 
 ##
 ## Enable/Disable the captcha challenge on the login page.
@@ -276,7 +272,7 @@ https_only: false
 ## Accepted values: true, false
 ## Default: true
 ##
-#captcha_enabled: true
+captcha_enabled: false
 
 ##
 ## List of usernames that will be granted administrator rights.
@@ -297,8 +293,19 @@ https_only: false
 ## Accepted values: an array of strings
 ## Default: [""]
 ##
-#admins: [""]
+#admins: ["{{ invidious_admin_user }}"]
 
+##
+## Enable/Disable the user notifications for all users
+##
+## Note: On large instances, it is recommended to set this option to 'false'
+## in order to reduce the amount of data written to the database, and hence
+## improve the overall performance of the instance.
+##
+## Accepted values: true, false
+## Default: true
+##
+enable_user_notifications: true
 
 # -----------------------------
 #  Background jobs
@@ -308,15 +315,22 @@ https_only: false
 ## Number of threads to use when crawling channel videos (during
 ## subscriptions update).
 ##
-## Notes:
-##  - Setting this to 0 will disable the channel videos crawl job.
-##  - This setting is overriden if "-c THREADS" or
-##    "--channel-threads=THREADS" are passed on the command line.
+## Notes: This setting is overridden if either "-c THREADS" or
+## "--channel-threads=THREADS" is passed on the command line.
 ##
 ## Accepted values: a positive integer
 ## Default: 1
 ##
 channel_threads: 1
+
+##
+## Time interval between two executions of the job that crawls
+## channel videos (subscriptions update).
+##
+## Accepted values: a valid time interval (like 1h30m or 90m)
+## Default: 30m
+##
+#channel_refresh_interval: 30m
 
 ##
 ## Forcefully dump and re-download the entire list of uploaded
@@ -330,10 +344,8 @@ full_refresh: false
 ##
 ## Number of threads to use when updating RSS feeds.
 ##
-## Notes:
-##  - Setting this to 0 will disable the channel videos crawl job.
-##  - This setting is overriden if "-f THREADS" or
-##    "--feed-threads=THREADS" are passed on the command line.
+## Notes: This setting is overridden if either "-f THREADS" or
+## "--feed-threads=THREADS" is passed on the command line.
 ##
 ## Accepted values: a positive integer
 ## Default: 1
@@ -344,13 +356,49 @@ feed_threads: 1
 ## Enable/Disable the polling job that keeps the decryption
 ## function (for "secured" videos) up to date.
 ##
-## Note: This part of the code is currently broken, so changing
+## Note: This part of the code generate a small amount of data every minute.
+## This may not be desired if you have bandwidth limits set by your ISP.
+##
+## Note 2: This part of the code is currently broken, so changing
 ## this setting has no impact.
 ##
 ## Accepted values: true, false
-## Default: true
+## Default: false
 ##
-#decrypt_polling: true
+#decrypt_polling: false
+
+
+jobs:
+
+  ## Options for the database cleaning job
+  clear_expired_items:
+
+    ## Enable/Disable job
+    ##
+    ## Accepted values: true, false
+    ## Default: true
+    ##
+    enable: true
+
+  ## Options for the channels updater job
+  refresh_channels:
+
+    ## Enable/Disable job
+    ##
+    ## Accepted values: true, false
+    ## Default: true
+    ##
+    enable: true
+
+  ## Options for the RSS feeds updater job
+  refresh_feeds:
+
+    ## Enable/Disable job
+    ##
+    ## Accepted values: true, false
+    ## Default: true
+    ##
+    enable: true
 
 
 # -----------------------------
@@ -375,7 +423,7 @@ feed_threads: 1
 
 
 # -----------------------------
-#  Miscellanous
+#  Miscellaneous
 # -----------------------------
 
 ##
@@ -385,7 +433,7 @@ feed_threads: 1
 ## Accepted values: any string. HTML is accepted.
 ## Default: <none>
 ##
-#banner:
+banner: {{ invidious_banner }}
 
 ##
 ## Subscribe to channels using PubSubHub (Google PubSubHubbub service).
@@ -437,15 +485,21 @@ feed_threads: 1
 #cache_annotations: false
 
 ##
-## Source code URL. If your instance is running a modfied source
+## Source code URL. If your instance is running a modified source
 ## code, you MUST publish it somewhere and set this option.
 ##
 ## Accepted values: a string
 ## Default: <none>
 ##
-#modified_source_code_url: ""
+modified_source_code_url: "{{ invidious_repo }}"
 
-
+##
+## Maximum custom playlist length limit.
+##
+## Accepted values: Integer
+## Default: 500
+##
+#playlist_length_limit: 500
 
 #########################################
 #
@@ -506,7 +560,7 @@ default_user_preferences:
   ##
   ## Default: en-US
   ##
-  #locale: en-US
+  locale: en-US
 
   ##
   ## Default geographical location for content.
@@ -521,12 +575,12 @@ default_user_preferences:
   ##
   ## Default: US
   ##
-  #region: US
+  region: US
 
   ##
-  ## Top 3 prefered languages for video captions.
+  ## Top 3 preferred languages for video captions.
   ##
-  ## Note: overridin the default (no preferred
+  ## Note: overriding the default (no preferred
   ## caption language) is not recommended, in order
   ## to not penalize people using other languages.
   ##
@@ -570,10 +624,10 @@ default_user_preferences:
   ##
   ## Enable/Disable dark mode.
   ##
-  ## Accepted values: true, false
-  ## Default: <none>
+  ## Accepted values: "dark", "light", "auto"
+  ## Default: "auto"
   ##
-  #dark_mode:
+  dark_mode: "dark"
 
   ##
   ## Enable/Disable thin mode (no video thumbnails).
@@ -598,7 +652,7 @@ default_user_preferences:
   #feed_menu: ["Popular", "Trending", "Subscriptions", "Playlists"]
 
   ##
-  ## Default feed to diplay on the home page.
+  ## Default feed to display on the home page.
   ##
   ## Note: setting this option to "Popular" has no
   ## effect when 'popular_enabled' is set to false.
@@ -816,7 +870,7 @@ default_user_preferences:
 
 
   # -----------------------------
-  #  Miscellanous
+  #  Miscellaneous
   # -----------------------------
 
   ##
@@ -851,3 +905,13 @@ default_user_preferences:
   ## Default: false
   ##
   #automatic_instance_redirect: false
+
+  ##
+  ## Show the entire video description by default (when set to 'false',
+  ## only the first few lines of the description are shown and a
+  ## "show more" button allows to expand it).
+  ##
+  ## Accepted values: true, false
+  ## Default: false
+  ##
+  #extend_desc: false
