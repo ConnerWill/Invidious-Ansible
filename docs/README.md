@@ -17,7 +17,7 @@ Ansible playbooks to deploy [Invidious][invidious]
 Create SSH key
 
 ```bash
-ssh-keygen -t ed25519 -a 256 -C "Invidious" -f "~/.ssh/invidious-ssh-key"
+ssh-keygen -t ed25519 -a 256 -C "Invidious" -f ~/.ssh/invidious-ssh-key
 ```
 
 Copy SSH key to server
