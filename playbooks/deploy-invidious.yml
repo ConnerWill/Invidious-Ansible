@@ -2,6 +2,7 @@
 - name: Deploy Invidious
   hosts: all
   become: true
+  #connection: local
 
   vars:
 
