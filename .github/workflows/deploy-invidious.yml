@@ -16,7 +16,7 @@ jobs:
         run: sudo apt install ansible -y
 
       - name: Replace all with localhost in playbook
-        run: sed -i -e 's/all/localhost/g' ./playbooks/deploy-invidious.yml
+        run: sed -i -e 's/ all/ localhost/g' ./playbooks/deploy-invidious.yml
 
       - name: Uncomment local connection in playbook
         run: sed -i -e 's/#connection/connection/g' ./playbooks/deploy-invidious.yml
