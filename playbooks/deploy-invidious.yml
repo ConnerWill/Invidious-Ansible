@@ -22,7 +22,21 @@
       - libssl-dev
       - libffi-dev
       - python3-dev
-    redhat_packages:
+    ubuntu_packages:
+      - git
+      - curl
+      - build-essential
+      - libssl-dev
+      - libffi-dev
+      - python3-dev
+    arch_packages:
+      - git
+      - curl
+      - build-essential
+      - libssl-dev
+      - libffi-dev
+      - python3-dev
+    centos_packages:
       - git
       - curl
       - gcc
@@ -33,11 +47,34 @@
 
   tasks:
 
-    # Install required packages based on distribution
-    - name: Install required packages
+    # Install packages for Debian
+    - name: Install required packages - Debian
       package:
-        name: "{{ debian_packages if ansible_distribution == 'Debian' else redhat_packages }}"
+        name: "{{ Debian_packages }}"
         state: present
+      when: ansible_distribution == 'Debian'
+
+    # Install packages for Ubuntu
+    - name: Install required packages - Ubuntu
+      package:
+        name: "{{ ubuntu_packages }}"
+        state: present
+      when: ansible_distribution == 'Ubuntu'
+
+    # Install packages for Arch
+    - name: Install required packages - Arch
+      package:
+        name: "{{ arch_packages }}"
+        state: present
+      when: ansible_distribution == 'Arch'
+
+    # Install packages for CentOS
+    - name: Install required packages - CentOS
+      package:
+        name: "{{ centos_packages }}"
+        state: present
+      when: ansible_distribution == 'CentOS'
+
 
     # Clone Invidious repository
     - name: Clone Invidious repository
