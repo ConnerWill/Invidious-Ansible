@@ -5,9 +5,9 @@
 
   vars:
 
-    invidious_repo: "{{ invidious_repo_url }}"
-    invidious_version: "{{ invidious_version }}"
-    invidious_dir: "{{ invidious_dir }}"
+    # invidious_repo: "{{ invidious_repo_url }}"
+    # invidious_version: "{{ invidious_version }}"
+    # invidious_dir: "{{ invidious_dir }}"
 
     # Define package lists based on distribution
     debian_packages:
@@ -38,7 +38,7 @@
       - postgresql
       - shards
     redhat_packages:
-      - certbot
+      # - certbot
       - curl
       - gcc
       - git
@@ -46,7 +46,7 @@
       - libevent-devel
       - librsvg2-devel
       - libxml2-devel
-      - libyaml-devel
+      # - libyaml-devel
       - openssl-devel
       - postgresql
       - readline-devel
@@ -129,12 +129,12 @@
 
     # - name: Setup Invidious
 
-    - name: Create invidious config from template
-      ansible.builtin.template:
-        src: templates/config.j2
-        dest: "{{ invidious_dir }}/config/config.yml"
-        owner: invidious
-        group: invidious
-        mode: '0644'
+    # - name: Create invidious config from template
+    #   ansible.builtin.template:
+    #     src: templates/config.j2
+    #     dest: "{{ invidious_dir }}/config/config.yml"
+    #     owner: invidious
+    #     group: invidious
+    #     mode: '0644'
     #
     # - name: Setup NGINX
