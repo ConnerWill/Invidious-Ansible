@@ -16,7 +16,7 @@ case "${ACTION}" in
     playbook="uninstall-invidious.yml"
     ;;
   *)
-    echo "INVALID INPUT !!!"
+    echo "INVALID ACTION !!!"
     ;;
 esac
 
