@@ -39,12 +39,32 @@ Edit inventory file *(`inventory.yml`)*
 vim ./inventory.yml
 ```
 
+Edit variables file *(`vars/all.yml`)*
+
+```bash
+vim ./vars/all.yml
+```
+
+
 # Usage
 
-Deploy Invidious
+
+Deploy Invidious using `invidious-ansible.sh` script
+
+```bash
+./invidious-ansible.sh deploy inventory.yml
+```
+
+Deploy Invidious using `ansible-playbook` command
 
 ```bash
 ansible-playbook -i ./inventory.yml ./playbooks/deploy-invidious.yml
+```
+
+Show help and available actions in `invidious-ansible.sh` script
+
+```bash
+./invidious-ansible.sh help
 ```
 
 <!---
