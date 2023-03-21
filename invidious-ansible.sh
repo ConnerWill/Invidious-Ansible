@@ -22,11 +22,12 @@ esac
 
 
 if [[ -z "${INVENTORY}" ]]; then
-  printf "PLEASE SPECIFY AN INVENTORY FILE\n"
-else
-  if [[ ! -f "${INVENTORY}" ]]; then
-    printf "Cannot find inventory file:\t%s\n" "${INVENTORY}"
-  fi
+  INVENTORY="inventory.yml"
+  # printf "PLEASE SPECIFY AN INVENTORY FILE\n"
+fi
+
+if [[ ! -f "${INVENTORY}" ]]; then
+  printf "Cannot find inventory file:\t%s\n" "${INVENTORY}"
 fi
 
 echo ansible-playbook -i "${INVENTORY}" "./playbooks/${playbook}"
