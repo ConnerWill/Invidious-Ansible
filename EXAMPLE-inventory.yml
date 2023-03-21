@@ -5,14 +5,3 @@ all:
       ansible_user: username
       ansible_ssh_private_key_file: ~/.ssh/invidious-ssh-key
       ansible_sudo_pass: password
-
-  vars:
-
-    invidious_repo: https://github.com/iv-org/invidious.git # Invidious repo URL
-    invidious_version: 1.3.0 # Invidious version to install
-    invidious_dir: /home/invidious/invidious # Directory where Invidious will be installed
-
-    domain_name: invidious.example.com
-    https: true
-    invidious_admin_user: username
-    invidious_banner: BANNER TEXT

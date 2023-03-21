@@ -1,9 +1,8 @@
----
 invidious_repo: https://github.com/iv-org/invidious.git # Invidious repo URL
 invidious_version: 1.3.0                                # Invidious version to install
 invidious_dir: /home/invidious/invidious                # Directory where Invidious will be installed
 
-domain_name: invidious.example.com                      # domain you wish to host invidious on
+domain_name: invidious.example.com                      # Domain you wish to host invidious on
 https: true                                             # Leave 'true' if you wish to use HTTPS
-invidious_admin_user: username                          # admin username for invidious
+invidious_admin_user: username                          # Admin username for invidious
 invidious_banner: BANNER TEXT                           # Banner text for invidious

@@ -4,6 +4,9 @@
   become: true
   #connection: local
 
+  vars_files:
+    - ../vars/all.yml
+
   vars:
 
     # ## REMOVE
@@ -152,14 +155,14 @@
     # - name: Setup PostgresSQL
     #   notify: Start Postgres
 
-    - name: Setup Nginx
-      ansible.builtin.template:
-        src: ../templates/nginx-reverse-proxy.j2
-        dest: "/etc/nginx/sites-available"
-        owner: root
-        group: root
-        mode: '0644'
-      notify: Start Nginx
+    # - name: Setup Nginx
+    #   ansible.builtin.template:
+    #     src: ../templates/nginx-reverse-proxy.j2
+    #     dest: "/etc/nginx/sites-available"
+    #     owner: root
+    #     group: root
+    #     mode: '0644'
+    #   notify: Start Nginx
 
     # - name: Setup Logrotate
     #   notify: Start Logrotate
