@@ -30,4 +30,4 @@ if [[ ! -f "${INVENTORY}" ]]; then
   printf "Cannot find inventory file:\t%s\n" "${INVENTORY}"
 fi
 
-echo ansible-playbook -i "${INVENTORY}" "./playbooks/${playbook}"
+echo ansible-playbook --check --diff -i "${INVENTORY}" "./playbooks/${playbook}"
