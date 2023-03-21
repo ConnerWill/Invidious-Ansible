@@ -142,6 +142,10 @@
         group: invidious
         mode: '0644'
 
+    - name: Compile Invidious
+      make:
+        chdir: "{{ invidious_dir }}"
+
     # - name: Create/Copy Invidious Service
     #   ansible.builtin.copy:
     #     src: "{{ invidious_dir }}/invidious.service"
