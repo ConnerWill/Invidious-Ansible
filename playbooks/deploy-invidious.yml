@@ -142,19 +142,19 @@
         group: invidious
         mode: '0644'
 
-    - name: Compile Invidious
+    - name: Make Invidious
       make:
         chdir: "{{ invidious_dir }}"
 
-    # - name: Create/Copy Invidious Service
-    #   ansible.builtin.copy:
-    #     src: "{{ invidious_dir }}/invidious.service"
-    #     dest: /etc/systemd/system/invidious.service
-    #     remote_src: true
-    #     owner: root
-    #     group: root
-    #     mode: '0644'
-    #   notify: Start Invidious
+    - name: Create/Copy Invidious Service
+      ansible.builtin.copy:
+        src: "{{ invidious_dir }}/invidious.service"
+        dest: /etc/systemd/system/invidious.service
+        remote_src: true
+        owner: root
+        group: root
+        mode: '0644'
+      notify: Start Invidious
 
     # - name: Setup PostgresSQL
     #   notify: Start Postgres
